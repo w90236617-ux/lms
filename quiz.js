@@ -1,67 +1,88 @@
-var courseKey = "";
-var quizList = document.getElementById("quizList");
-async function getAllQuiz() {
-  var loginUserId = localStorage.getItem("loginUser");
-  await firebase
-    .database()
-    .ref("user")
-    .child(loginUserId)
-    .get()
-    .then((snap) => {
-      console.log(snap.val());
-      courseKey = snap.val()["courseKey"];
-      getALlQuiz(courseKey);
-    });
+let courses = document.getElementById("courses")
+let quizName = document.getElementById("quizName")
+
+
+const GETALLSUBJECT = async () => {
+    await firebase.database().ref("course").get()
+        .then((snap) => {
+            console.log(snap.val())
+            var listCourse = Object.values(snap.val())
+            for (var i = 0; i < listCourse.length; i++) {
+                courses.innerHTML += `
+            <option key='${listCourse[i]["coursekey"]}'>${listCourse[i]["courseName"]}</option>
+            `
+            }
+
+            console.log(listCourse)
+
+        })
+    getAllQuiz()
 }
-const getALlQuiz = async (courseKey) => {
-  await firebase
-    .database()
-    .ref("Quiz")
-    .get()
-    .then((snap) => {
-      var db = snap.val();
-      // console.log(db)
-      const arr = Object.values(db);
-      // console.log(arr)
-      arr.forEach((v) => {
-        if (v.coursekey == courseKey) {
-          console.log(v);
-          quizList.innerHTML += `
-            <div class='card'>
-            ${v.quizName}
-            <br><br>
-            <button id=${v.quizKey} onclick='setQuiz(this)'>Start quiz</button>
-            </div>
-            `;
+
+GETALLSUBJECT()
+
+
+const addQuiz = async () => {
+    console.log(courses.options[courses.selectedIndex].getAttribute('key'))
+    console.log(courses.value)
+    console.log(quizName.value)
+
+    var quizKey = await firebase.database().ref("Quiz").push().key
+
+    var quizObj = {
+        coursesName: courses.value,
+        quizName: quizName.value,
+        quizKey: quizKey,
+        coursekey: courses.options[courses.selectedIndex].getAttribute('key')
+    }
+
+    await firebase.database().ref("Quiz").child(quizKey).set(quizObj)
+    alert("add new quiz")
+}
+
+const getAllQuiz = async () => {
+    await firebase.database().ref("Quiz").get().then((db) => {
+        console.log(db.val())
+
+        let courseTable = document.getElementById("courseTable")
+
+        var data = Object.values(db.val())
+
+        for (var i = 0; i < data.length; i++) {
+            courseTable.innerHTML += `
+               <tr>
+                            <td>${i+1}</td>
+                            <td>${data[i]["coursesName"]}</td>
+                            <td>${data[i]["quizName"]}</td>
+                           <td><button ><a href='./question.html?courseKey=${data[i]['coursekey']}&quizKey=${data[i]['quizKey']}'>View</a></button></td>
+                        </tr>
+`
         }
-      });
-    });
-};
+    })
 
-getAllQuiz();
+}
+function logoutAdmin() {
 
-function setQuiz(e){
-  // alert("quiz")
-  console.log(e.id)
-  localStorage.setItem("quizKey",e.id)
+    var confirmLogout = confirm("Are you sure you want to logout?");
 
-  Swal.fire({
-        title: "Are you sure?",
-        text: "You won't be able to revert this!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, start quiz!",
-        cancelButtonText: "Cancel"
-    }).then((result) => {
+    if (!confirmLogout) {
+        return;
+    }
 
-        if (result.isConfirmed) {
-            window.location.href = "index.html";
-        }else{
+    firebase.auth().signOut()
+        .then(() => {
+            console.log("Admin logged out successfully");
             
-        }
+            // clear any stored session data if you're using localStorage/sessionStorage
+            localStorage.clear();
+            sessionStorage.clear();
 
-    });
-  
+            // redirect to login page
+            window.location.href = "./login.html"; // change this to your actual login page name
+        })
+        .catch((error) => {
+            console.log("Logout error:", error);
+            alert("Something went wrong while logging out.");
+        });
+
 }

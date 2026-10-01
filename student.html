@@ -1,5 +1,6 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,6 +17,13 @@
         body {
             background: #f5f6fa;
             color: #222;
+        }
+
+        img{
+            width:50px;
+            height:50px;
+
+            border-radius: 50%;
         }
 
         .dashboard {
@@ -162,6 +170,14 @@
             border-radius: 20px;
             font-size: 12px;
         }
+        .delete{
+            color: red;
+            background-color: rgba(239, 26, 26, 0.302);
+              padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            border: hidden;
+        }
 
         /* Responsive */
         @media (max-width: 1000px) {
@@ -212,10 +228,14 @@
             table {
                 min-width: 600px;
             }
+
         }
         .hide{
             display: none;
 
+        }
+        .show{
+            display: inline;
         }
     </style>
 </head>
@@ -233,11 +253,11 @@
 
             <ul class="menu">
                 <li>
-                    <a href="#" class="active">🏠 Dashboard</a>
+                    <a href="./dashbaord.html">🏠 Dashboard</a>
                 </li>
 
                 <li>
-                    <a href="./student.html">👨‍🎓 Students</a>
+                    <a href="./student.html" class="active">👨‍🎓 Students</a>
                 </li>
 
                 <li>
@@ -248,9 +268,9 @@
                     <a href="./quiz.html">💳 Quizs</a>
                 </li>
 
-               <li>
-    <a href="#" id="logoutBtn" onclick="logoutAdmin()">🚪 Logout</a>
-</li>
+                <li>
+                       <a href="#" id="logoutBtn" onclick="logoutAdmin()">🚪 Logout</a>
+                </li>
             </ul>
 
         </aside>
@@ -260,11 +280,11 @@
         <main class="main">
 
             <!-- Top Bar -->
-            <div class="topbar">
+            <div class="topbar ">
 
                 <div>
-                    <h1>Dashboard</h1>
-                    <p>Welcome back, Admin!</p>
+                    <h1>Students List</h1>
+                    
                 </div>
 
                 <div class="admin">
@@ -273,58 +293,35 @@
 
             </div>
 
-             <div id="loading"  style="text-align:center; ">
+
+            <!-- Dashboard Cards -->
+           <div id="loading"  style="text-align:center; ">
 
             <img style="height: 90px; width:90px" src="https://assets-v2.lottiefiles.com/a/03cdc6e0-118b-11ee-bf08-07d88a941cbd/fjMdlSoouM.gif" alt="" >
            </div>
 
-
-
-            <!-- Dashboard Cards -->
-            <section class="cards hide" id="maintable" >
-
-                <div class="card" >
-                    
-                    <a href="./student.html"> <h3>Total Students </h3></a>
-                    <div class="number" id="totalstd">0</div>
-                    <p>↑ 12% this month</p>
-                </div>
-
-                <div class="card">
-                    <a href="./course.html"> <h3 >Total Course </h3></a>
-                    <div class="number" id="totalcourse" >0</div>
-                    <p>↑ 5% this month</p>
-                </div>
-
-                <div class="card">
-                    <a href="./quiz.html"><h3 >Total quiz </h3></a>
-                    <div class="number" id="totalquiz"> 0</div>
-                    <p>↑ 8% this month</p>
-                </div>
-
-              
-
-            </section>
-
-
             <!-- Recent Students -->
-            <section class="table-box hide" id="maintabl" >
+            <section class="table-box hide" id="maintable" >
+               
 
-                <h2>Recent Students</h2>
-
-                <table>
+                <table >
 
                     <thead>
                         <tr>
+                            <th>S.no</th>
                             <th>Name</th>
                             <th>Email</th>
-                            <th>Course</th>
+                            <th>image</th>
                             <th>Status</th>
+                            <th>remove</th>
                         </tr>
                     </thead>
 
                     <tbody id="users">
 
+                       
+
+                      
                     </tbody>
 
                 </table>
@@ -337,7 +334,7 @@
 
     
 
-       <!-- Firebase compatibility scripts -->
+<!-- Firebase compatibility scripts -->
     <script src="https://www.gstatic.com/firebasejs/12.16.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/12.16.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/12.16.0/firebase-database-compat.js"></script>
@@ -356,8 +353,7 @@
         firebase.initializeApp(firebaseConfig);
 </script>
 
-
-<script src="./dashbaord.js" ></script>
+<script src="students.js"></script>
 
 </body>
 

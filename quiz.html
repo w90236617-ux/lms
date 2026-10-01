@@ -1,9 +1,15 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
+
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
 
     <style>
         * {
@@ -23,46 +29,55 @@
             min-height: 100vh;
         }
 
-        /* Sidebar */
+        /* Sidebar - Added !important to override Bootstrap */
         .sidebar {
-            width: 240px;
-            background: #1e293b;
-            color: white;
-            padding: 25px 15px;
-            position: fixed;
-            left: 0;
-            top: 0;
-            bottom: 0;
+            width: 240px !important;
+            background: #1e293b !important;
+            color: white !important;
+            padding: 25px 15px !important;
+            position: fixed !important;
+            left: 0 !important;
+            top: 0 !important;
+            bottom: 0 !important;
         }
 
         .logo {
-            font-size: 24px;
-            font-weight: bold;
-            text-align: center;
-            margin-bottom: 35px;
+            font-size: 24px !important;
+            font-weight: bold !important;
+            text-align: center !important;
+            margin-bottom: 35px !important;
+            color: white !important;
         }
 
         .menu {
-            list-style: none;
+            list-style: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
         }
 
         .menu li {
-            margin-bottom: 8px;
+            margin-bottom: 8px !important;
         }
 
+        /* CRITICAL FIX: Override Bootstrap's anchor styles */
         .menu a {
-            display: block;
-            text-decoration: none;
-            color: #cbd5e1;
-            padding: 13px 15px;
-            border-radius: 8px;
-            transition: 0.3s;
+            display: block !important;
+            text-decoration: none !important;
+            color: #cbd5e1 !important;
+            padding: 13px 15px !important;
+            border-radius: 8px !important;
+            transition: 0.3s !important;
+            text-align: left !important;       /* Force left alignment */
+            font-size: inherit !important;     /* Prevent Bootstrap font overrides */
+            line-height: normal !important;
+            background: transparent !important;
         }
 
         .menu a:hover,
-        .menu .active {
-            background: #334155;
-            color: white;
+        .menu a.active {
+            background: #334155 !important;
+            color: white !important;
+            text-decoration: none !important;
         }
 
         /* Main Content */
@@ -139,8 +154,7 @@
             border-collapse: collapse;
         }
 
-        th,
-        td {
+        th, td {
             padding: 14px;
             text-align: left;
             border-bottom: 1px solid #e2e8f0;
@@ -165,58 +179,36 @@
 
         /* Responsive */
         @media (max-width: 1000px) {
-            .cards {
-                grid-template-columns: repeat(2, 1fr);
-            }
+            .cards { grid-template-columns: repeat(2, 1fr); }
         }
 
         @media (max-width: 700px) {
             .sidebar {
-                width: 70px;
-                padding: 20px 8px;
+                width: 70px !important;
+                padding: 20px 8px !important;
             }
-
-            .logo {
-                font-size: 16px;
-            }
-
+            .logo { font-size: 16px !important; }
             .menu a {
-                font-size: 0;
-                text-align: center;
+                font-size: 0 !important;
+                text-align: center !important;
             }
-
-            .menu a::first-letter {
-                font-size: 18px;
-            }
-
+            .menu a::first-letter { font-size: 18px !important; }
             .main {
                 margin-left: 70px;
                 width: calc(100% - 70px);
                 padding: 20px;
             }
-
-            .cards {
-                grid-template-columns: 1fr;
-            }
-
+            .cards { grid-template-columns: 1fr; }
             .topbar {
                 flex-direction: column;
                 align-items: flex-start;
                 gap: 15px;
             }
-
-            .table-box {
-                overflow-x: auto;
-            }
-
-            table {
-                min-width: 600px;
-            }
+            .table-box { overflow-x: auto; }
+            table { min-width: 600px; }
         }
-        .hide{
-            display: none;
 
-        }
+        .hide { display: none; }
     </style>
 </head>
 
@@ -231,9 +223,9 @@
                 Admin Panel
             </div>
 
-            <ul class="menu">
+           <ul class="menu">
                 <li>
-                    <a href="#" class="active">🏠 Dashboard</a>
+                    <a href="./dashbaord.html">🏠 Dashboard</a>
                 </li>
 
                 <li>
@@ -241,16 +233,16 @@
                 </li>
 
                 <li>
-                    <a href="./course.html">📚 Courses</a>
+                    <a href="./course.html" >📚 Courses</a>
                 </li>
 
                 <li>
-                    <a href="./quiz.html">💳 Quizs</a>
+                    <a href="./quiz.html" class="active">💳 Quizs</a>
                 </li>
 
-               <li>
+                <li>
     <a href="#" id="logoutBtn" onclick="logoutAdmin()">🚪 Logout</a>
-</li>
+                </li>
             </ul>
 
         </aside>
@@ -263,8 +255,9 @@
             <div class="topbar">
 
                 <div>
-                    <h1>Dashboard</h1>
-                    <p>Welcome back, Admin!</p>
+                    <h1> QUIZ Page
+                    </h1>
+
                 </div>
 
                 <div class="admin">
@@ -273,57 +266,37 @@
 
             </div>
 
-             <div id="loading"  style="text-align:center; ">
-
-            <img style="height: 90px; width:90px" src="https://assets-v2.lottiefiles.com/a/03cdc6e0-118b-11ee-bf08-07d88a941cbd/fjMdlSoouM.gif" alt="" >
-           </div>
 
 
-
-            <!-- Dashboard Cards -->
-            <section class="cards hide" id="maintable" >
-
-                <div class="card" >
-                    
-                    <a href="./student.html"> <h3>Total Students </h3></a>
-                    <div class="number" id="totalstd">0</div>
-                    <p>↑ 12% this month</p>
-                </div>
-
-                <div class="card">
-                    <a href="./course.html"> <h3 >Total Course </h3></a>
-                    <div class="number" id="totalcourse" >0</div>
-                    <p>↑ 5% this month</p>
-                </div>
-
-                <div class="card">
-                    <a href="./quiz.html"><h3 >Total quiz </h3></a>
-                    <div class="number" id="totalquiz"> 0</div>
-                    <p>↑ 8% this month</p>
-                </div>
-
-              
-
-            </section>
 
 
             <!-- Recent Students -->
-            <section class="table-box hide" id="maintabl" >
+            <section class="table-box">
+                <div style="text-align: right">
+                    <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Add Quiz and Course Name</button>
 
-                <h2>Recent Students</h2>
+                </div>
+
+
+                <h2>QUIZ List</h2>
 
                 <table>
 
                     <thead>
                         <tr>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Course</th>
-                            <th>Status</th>
+                            <th>S.no</th>
+                            <th>Course name</th>
+                            <th>Quiz name</th>
+                            <th>View</th>
                         </tr>
                     </thead>
 
-                    <tbody id="users">
+                    <tbody id="courseTable">
+
+                      
+
+                       
+
 
                     </tbody>
 
@@ -335,13 +308,54 @@
 
     </div>
 
-    
 
-       <!-- Firebase compatibility scripts -->
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Add New Course</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                     <div class="mb-3 row">
+                        <label for="courseName" class="col-sm-4 col-form-label">COUSE NAME</label>
+                        <div class="col-sm-7">
+                            <select type="text" id="courses">
+                                <option selected disabled> select course</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="courseduration" class="col-sm-4 col-form-label">QUIZ NAME</label>
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" id="quizName">
+                        </div>
+                    </div>
+                   
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="addQuiz()">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+
     <script src="https://www.gstatic.com/firebasejs/12.16.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/12.16.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/12.16.0/firebase-database-compat.js"></script>
 
+  
     <script>
         // Firebase Config Setup
         const firebaseConfig = {
@@ -357,7 +371,7 @@
 </script>
 
 
-<script src="./dashbaord.js" ></script>
+    <script src="./quiz.js"></script>
 
 </body>
 
